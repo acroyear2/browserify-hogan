@@ -16,6 +16,18 @@ var minifierDefaults = {
     removeEmptyElements          : false
 };
 
+function wrap (template) {
+    return (
+        'var t = new (require(\'hogan.js/lib/template\')).Template(' + template + ');' +
+        'module.exports = {' +
+        '  render: function () { return t.render.apply(t, arguments); },' +
+        '  r: function () { return t.r.apply(t, arguments); },' +
+        '  ri: function () { return t.ri.apply(t, arguments); },' +
+        '  ib: function () { return t.ib.apply(t, arguments); }' +
+        '};'
+    );
+}
+
 function extend (obj) {
     Array.prototype.slice.call(arguments, 1).forEach(function (source) {
         if (!source) { return; }
@@ -40,8 +52,7 @@ module.exports = function (file, opts) {
     }
 
     var end = function () {
-        this.queue('module.exports = new (require(\'hogan.js/lib/template\')).Template(' + 
-            hogan.compile(minify(input, minifierOpts), { asString: true }) + ');');
+        this.queue(wrap(hogan.compile(minify(input, minifierOpts), { asString: true })));
         this.queue(null);
     }
 
