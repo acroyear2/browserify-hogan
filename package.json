@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "through": "~2.2.7",
-    "hogan.js": "~2.0.0",
+    "hogan.js": "git://github.com/twitter/hogan.js.git#b1328c06eedf316bbe4c54b189ecb47cff7ac2ed",
     "html-minifier": "~0.5.6"
   },
   "devDependencies": {
